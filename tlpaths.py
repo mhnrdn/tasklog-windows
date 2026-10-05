@@ -94,10 +94,31 @@ def log_dir():
 
 
 # ---------------------------------------------------------------- roots default
+def _onedrive_dirs():
+    """Cari folder OneDrive, termasuk kalau dipindah ke drive/lokasi lain."""
+    cands = []
+    for env in ("OneDrive", "OneDriveCommercial", "OneDriveConsumer"):
+        v = os.environ.get(env)
+        if v:
+            cands.append(v)
+    for drive in ("C:", "D:", "E:", "F:", "G:"):
+        root = drive + "\\"
+        if not os.path.isdir(root):
+            continue
+        try:
+            for n in os.listdir(root):
+                low = n.lower()
+                if low == "onedrive" or low.startswith("onedrive - "):
+                    cands.append(os.path.join(root, n))
+        except Exception:
+            pass
+    return cands
+
+
 def default_roots():
     """Folder yang dipindai untuk cari nama proyek. Bisa diubah di projects.json."""
     home = os.path.expanduser("~")
-    cands = [
+    cands = _onedrive_dirs() + [
         os.path.join(home, "OneDrive"),
         os.path.join(home, "OneDrive", "Desktop"),
         os.path.join(home, "OneDrive", "Documents"),
@@ -107,6 +128,9 @@ def default_roots():
         os.path.join(home, "Projects"),
         os.path.join(home, "Proyek"),
     ]
+    for od in _onedrive_dirs():                 # subfolder standar di dalam OneDrive
+        cands += [os.path.join(od, "Desktop"), os.path.join(od, "Documents"),
+                  os.path.join(od, "Dokumen"), os.path.join(od, "Dokumen", "Projects")]
     seen, out = set(), []
     for c in cands:
         if not c:

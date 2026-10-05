@@ -70,7 +70,7 @@ MENYESUAIKAN NAMA PROYEK
 Klik "Daftar Proyek (projects.json)".
 Tiap proyek bentuknya:
 
-  { "name": "Proyek Medan", "keys": ["medan", "sumbagut", "kr-5"] }
+  { "name": "Proyek Medan", "keys": ["medan", "mdn-01", "gedung kantor medan"] }
 
 Kata kunci dicocokkan ke nama file, judul jendela, dan path folder.
 kalau file kamu di folder lain, tambahkan kata kuncinya.
@@ -123,6 +123,21 @@ Data dikirim ke internet?
   Tidak. Semua tersimpan di laptop sendiri.
 
 Ukuran file 28 MB, itu normal - Python sudah dipaket di dalamnya.
+
+
+SILENT / TIDAK MENGGANGGU
+-------------------------
+
+Setelah setup, aplikasi TIDAK membuka jendela apa pun di belakang layar.
+Pencatat cuma "mendengar" jendela aktif tiap 10 detik lalu menulis ke database.
+
+Kalau pernah muncul kotak "Warning: Failed to remove temporary directory",
+itu bug bootloader PyInstaller (bukan data rusak). Klik OK saja, atau lebih
+baik: jangan pasang autostart lewat exe - jalankan pencatat dengan Python
+(lihat README utama bagian "MODE SILENT").
+
+Jendela kerja kena minimize? Tidak ada di versi ini. Kalau kejadian,
+tutup aplikasi lain yang memakai "MinimizeAll".
 
 
 MENGELUARKAN / MEMATIKAN

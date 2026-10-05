@@ -1,0 +1,64 @@
+name: Build TaskLog.exe
+
+# Bikin TaskLog.exe otomatis.
+#   - tiap push ke main  -> simpan sebagai artifact (bisa diunduh, tidak dipublikasi)
+#   - tiap tag v*        -> tempelkan .exe ke Release
+
+on:
+  push:
+    branches: [main, master]
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Pasang dependensi
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Buat ikon
+        run: python make_icon.py
+        continue-on-error: true
+
+      - name: Build exe
+        shell: cmd
+        run: |
+          pyinstaller --noconfirm --clean --onefile --noconsole ^
+            --name TaskLog --icon icon.ico ^
+            --hidden-import win32com ^
+            --hidden-import win32com.client ^
+            --hidden-import pythoncom ^
+            --hidden-import pywintypes ^
+            --collect-submodules win32com app.py
+
+      - name: Cek hasil
+        shell: cmd
+        run: dir dist
+
+      - name: Unggah sebagai artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: TaskLog-exe
+          path: dist/TaskLog.exe
+          if-no-files-found: error
+
+      - name: Tempel ke Release (kalau tag)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/TaskLog.exe
+          generate_release_notes: true

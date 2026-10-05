@@ -1,0 +1,7 @@
+# TaskLog - kebutuhan runtime
+# Semua paket ini sudah tersedia di Windows + Python 3.8+
+#
+#   pip install -r requirements.txt
+
+psutil>=5.9          # daftar proses & judul jendela
+pywin32>=305         # win32gui (jendela aktif), win32com (Explorer, shortcut)

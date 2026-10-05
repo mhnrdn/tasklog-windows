@@ -1,0 +1,38 @@
+# --- data pribadi: JANGAN pernah di-commit ---
+TaskLog_data/
+activity.db
+*.db
+*.db-journal
+*.db-wal
+folder_index.json
+tracker_status.json
+tracker.pid
+
+# --- hasil build ---
+build/
+dist/
+*.spec
+*.exe
+*.ico
+
+# --- log ---
+*.log
+LOG/
+
+# --- python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+
+# --- editor / OS ---
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+
+# --- scratch uji coba ---
+demo_gui/
+scratch/

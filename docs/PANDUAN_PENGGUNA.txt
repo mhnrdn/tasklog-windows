@@ -1,0 +1,134 @@
+TaskLog - Pencatat Tugas Harian
+================================
+
+Aplikasi kecil yang mencatat sendiri apa yang kamu kerjakan di laptop,
+lalu membuat laporan pekerjaan harian.
+
+
+CARA PAKAI (3 langkah)
+----------------------
+
+1. Taruh TaskLog.exe di folder mana saja (misalnya D:\TaskLog\).
+   Jangan di dalam folder yang isinya sering kamu ubah-ubah.
+
+2. Dobel-klik TaskLog.exe.
+
+3. Di jendela yang terbuka, klik tombol
+   "Siapkan Semua (setup awal)".
+
+   Selesai. Aplikasi langsung mulai mencatat, dan otomatis nyala
+   setiap kali Windows login.
+
+
+HASILNYA DI MANA?
+-----------------
+
+Di sebelah TaskLog.exe akan muncul folder "TaskLog_data".
+Isinya:
+
+  TaskLog_data\Laporan\Laporan_Harian_<tanggal>.md    laporan lengkap
+  TaskLog_data\Laporan\Ringkas_<tanggal>.txt          siap tempel ke Google Calendar
+  TaskLog_data\Laporan\Audit_<tanggal>.txt            telusuri sumber tiap baris
+  TaskLog_data\Laporan\Laporan_Bulanan_<bulan>.md     rekap 1 bulan
+
+Tombol "Buka Folder Laporan" membuka foldernya langsung.
+
+
+YANG DICATAT
+------------
+
+- aplikasi yang sedang aktif + judul jendelanya
+- folder Explorer yang dibuka
+- file Excel / Word / PDF yang dibuka (termasuk lokasi foldernya)
+- topik meeting Zoom / Teams / Google Meet
+
+Nama proyek diambil dari LOKASI FOLDER file, bukan dari judul jendela.
+Jadi kalau file RAB ada di folder proyek Medan, otomatis ketulis
+"Proyek Medan".
+
+Contoh hasil:
+
+  **Dominan: Proyek Medan - 3 jam 40 menit di Excel, folder `23-09 ... MEDAN`**
+  - Proyek Medan : Penyusunan / Pengecekan BQ-RAB - 3 file Excel  (2 jam 55 menit)
+
+
+YANG TIDAK DICATAT
+------------------
+
+Daftar ada di TaskLog_data\exclude.json. Bawaan sudah diblokir:
+m-banking (KlikBCA, BRImo, Livin, Jenius, dll), password manager
+(Bitwarden, 1Password), dan browser Chrome.
+
+Yang ada di daftar itu TIDAK ditulis ke database sama sekali.
+
+Tambah sendiri: buka file itu lewat tombol "Pengecualian (exclude.json)".
+
+
+MENYESUAIKAN NAMA PROYEK
+------------------------
+
+Klik "Daftar Proyek (projects.json)".
+Tiap proyek bentuknya:
+
+  { "name": "Proyek Medan", "keys": ["medan", "sumbagut", "kr-5"] }
+
+Kata kunci dicocokkan ke nama file, judul jendela, dan path folder.
+kalau file kamu di folder lain, tambahkan kata kuncinya.
+
+Klik "Cari Proyek Otomatis" untuk memindai folder-foldermu dan
+mengusulkan daftar proyek.
+
+
+MENCATAT PEKERJAAN DI LUAR LAPTOP
+---------------------------------
+
+Kunjungan lapangan, telepon, meeting di ruang rapat - tidak terekam laptop.
+Catat manual lewat tombol "Catatan Manual" (file manual_entries.json):
+
+  {
+    "2026-10-06": [
+      { "project": "Proyek Medan", "act": "Kunjungan Lapangan",
+        "minutes": 120, "start": "09:00", "end": "11:00",
+        "note": "Survey lokasi" }
+    ]
+  }
+
+Tanggal harus format YYYY-MM-DD. "minutes" = durasi dalam menit.
+
+
+KALAU LAPORAN TERASA SALAH
+--------------------------
+
+Buka tab "Audit / Periksa". Di situ tertulis SETIAP rekaman yang dipakai,
+dari mana asalnya (database atau catatan manual), jam, durasi, dan
+file/folder yang terbuka. Cocokkan dengan yang kamu rasakan.
+
+
+PERTANYAAN UMUM
+---------------
+
+Windows menampilkan peringatan "Windows protected your PC"?
+  Itu normal untuk aplikasi kecil tanpa sertifikat digital.
+  Klik "More info" lalu "Run anyway".
+
+Antivirus komplain?
+  Aplikasi ini membaca judul jendela aktif - beberapa antivirus
+  menganggapnya mencurigakan. Tambahkan ke pengecualian antivirus.
+
+File .exe dipindah?
+  Kalau TaskLog.exe dipindah, buat shortcut autostart ulang:
+  buka aplikasi, klik "Autostart: Pasang/Copot" dua kali.
+
+Data dikirim ke internet?
+  Tidak. Semua tersimpan di laptop sendiri.
+
+Ukuran file 28 MB, itu normal - Python sudah dipaket di dalamnya.
+
+
+MENGELUARKAN / MEMATIKAN
+------------------------
+
+Matikan pencatat sementara : tombol "Matikan Pencatat"
+Matikan permanen           : tombol "Autostart: Pasang/Copot"
+Hapus total                : hapus TaskLog.exe + folder TaskLog_data
+                             + %LOCALAPPDATA%\TaskLog

@@ -223,7 +223,7 @@ GENERIC_WORDS = {"pelatihan", "tutorial", "kursus", "materi", "backup", "instala
 
 
 def clean_name(folder):
-    """'23-09 OJK KR-5 SUMBAGUT_MEDAN' -> 'OJK KR-5 SUMBAGUT_MEDAN'."""
+    """'23-09 Contoh Nama Proyek' -> 'Contoh Nama Proyek'."""
     n = re.sub(r"^\s*\d{2,4}\s*[-._]\s*\d{1,2}\s+", "", folder)
     n = re.sub(r"^\s*\d+\s*[-.)]\s*", "", n)
     n = n.replace("_", " ").strip()
